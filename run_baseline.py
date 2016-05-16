@@ -73,8 +73,8 @@ def run(segment_time=segment_time, scr_dist=scr_dist, debug=False):
     window.mouseVisible = False
 
     # present instructions
-    img = visual.ImageStim(window, image='baseline.png', size=[1169, 826],
-                     units='pix', interpolate=True)
+    img = visual.ImageStim(window, image=os.path.join('instr', 'baseline.png'),
+                           size=[1169, 826], units='pix', interpolate=True)
     img.draw(); window.flip()
     event.waitKeys(keyList=['right'])
     window.flip()
@@ -82,9 +82,10 @@ def run(segment_time=segment_time, scr_dist=scr_dist, debug=False):
     # choose seqence:
     possible_seq = ['OCCOCOOC', 'COOCOCCO']
     seq = random.sample(possible_seq, 1)[0]
-    conds = {'O': 'open.wav', 'C': 'close.wav'}
+    sounds = [os.path.join('snd', s) for s in ['open.wav', 'close.wav']]
+    conds = {'O': sounds[0], 'C': sounds[1]}
     trig ={'O': 10, 'C': 11}
-    stop_sound = sound.Sound('stop.wav')
+    stop_sound = sound.Sound(os.path.join('snd', 'stop.wav'))
 
     for s in seq:
         # check for quit
