@@ -3,6 +3,7 @@ from __future__ import division, print_function
 import os
 import yaml
 import random
+import warnings
 
 from psychopy import visual, event, monitors, core, sound
 
