@@ -39,6 +39,19 @@ def send_trigger(settings, code):
         windll.inpout32.Out32(settings['port_adress'], code)
 
 
+def get_subject_id():
+    from psychopy import gui
+    myDlg = gui.Dlg(title="Subject Info", size = (800,600))
+    myDlg.addText('Informacje o osobie badanej')
+    myDlg.addField('ID:')
+    myDlg.show()  # show dialog and wait for OK or Cancel
+
+    if myDlg.OK:  # Ok was pressed
+        return myDlg.data[0]
+    else:
+        core.quit()
+
+
 def run(segment_time=segment_time, scr_dist=scr_dist, debug=False):
 
     # set path to current file location
