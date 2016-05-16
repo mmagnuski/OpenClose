@@ -11,6 +11,29 @@ segment_time = 60
 scr_dist = 60
 
 
+# settings
+# --------
+file_path = os.path.join(*(__file__.split('\\')[:-1]))
+file_path = file_path.replace(':', ':\\')
+file_name = os.path.join(file_path, 'settings.yaml')
+with open(file_name, 'r') as f:
+    settings = yaml.load(f)
+settings['port_adress'] = int(settings['port_adress'], base=16)
+print(settings)
+
+# triggers
+# --------
+if settings['send_triggers']:
+    try:
+        from ctypes import windll
+        windll.inpout32.Out32(settings['port_adress'], 111)
+        core.wait(0.1)
+        windll.inpout32.Out32(settings['port_adress'], 0)
+    except:
+        warnings.warn('Could not send test trigger. :(')
+        settings['send_triggers'] = False
+
+
 def send_trigger(settings, code):
     if settings['send_triggers']:
         windll.inpout32.Out32(settings['port_adress'], code)
@@ -34,29 +57,6 @@ def run(segment_time=segment_time, scr_dist=scr_dist, debug=False):
 
     # create temporary window
     window = visual.Window(monitor=monitor, units="deg", fullscr=True)
-
-    # settings
-    # --------
-    file_path = os.path.join(*(__file__.split('\\')[:-1]))
-    file_path = file_path.replace(':', ':\\')
-    file_name = os.path.join(file_path, 'settings.yaml')
-    with open(file_name, 'r') as f:
-        settings = yaml.load(f)
-    settings['port_adress'] = int(settings['port_adress'], base=16)
-    print(settings)
-
-    # triggers
-    # --------
-    if settings['send_triggers']:
-        try:
-            from ctypes import windll
-            windll.inpout32.Out32(settings['port_adress'], 111)
-            core.wait(0.1)
-            windll.inpout32.Out32(settings['port_adress'], 0)
-        except:
-            warnings.warn('Could not send test trigger. :(')
-            settings['send_triggers'] = False
-
 
     # present instructions
     img = visual.ImageStim(window, image='baseline.png', size=[1169, 826],
