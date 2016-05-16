@@ -16,7 +16,7 @@ def send_trigger(settings, code):
         windll.inpout32.Out32(settings['port_adress'], code)
 
 
-def run(segment_time=segment_time, scr_dist=scr_dist):
+def run(segment_time=segment_time, scr_dist=scr_dist, debug=False):
 
     # set path to current file location
     file_path = os.path.join(*(__file__.split('\\')[:-1]))
@@ -71,9 +71,13 @@ def run(segment_time=segment_time, scr_dist=scr_dist):
     trig ={'O': 10, 'C': 11}
     stop_sound = sound.Sound('stop.wav')
 
-    key = event.waitKeys()
-
     for s in seq:
+        # check for quit
+        resp = event.getKeys()
+        if debug and 'q' in resp:
+            core.quit()
+
+        # play open/close sound
         snd = sound.Sound(conds[s])
         snd.play()
 
@@ -82,14 +86,14 @@ def run(segment_time=segment_time, scr_dist=scr_dist):
         core.wait(0.1)
         send_trigger(settings, 0)
 
-        # wait 60s
+        # wait segment_time, play ring and then wait break time
         core.wait(segment_time)
         stop_sound.play()
-        wait_time = random.random() * 3 + 2.0
+        if not debug:
+            wait_time = random.random() * 3 + 3.5
+        else:
+            wait_time = 0.5
         core.wait(wait_time)
-        resp = event.getKeys()
-        if 'q' in resp:
-            core.quit()
 
     return window
 
