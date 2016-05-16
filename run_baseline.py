@@ -70,12 +70,14 @@ def run(segment_time=segment_time, scr_dist=scr_dist, debug=False):
 
     # create temporary window
     window = visual.Window(monitor=monitor, units="deg", fullscr=True)
+    window.mouseVisible = False
 
     # present instructions
     img = visual.ImageStim(window, image='baseline.png', size=[1169, 826],
                      units='pix', interpolate=True)
     img.draw(); window.flip()
-    event.waitKeys(keyList=['left'])
+    event.waitKeys(keyList=['right'])
+    window.flip()
 
     # choose seqence:
     possible_seq = ['OCCOCOOC', 'COOCOCCO']
