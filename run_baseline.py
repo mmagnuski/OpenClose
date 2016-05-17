@@ -19,7 +19,6 @@ file_name = os.path.join(file_path, 'settings.yaml')
 with open(file_name, 'r') as f:
     settings = yaml.load(f)
 settings['port_adress'] = int(settings['port_adress'], base=16)
-print(settings)
 
 # triggers
 # --------
