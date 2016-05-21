@@ -54,8 +54,6 @@ def get_subject_id():
 def run(segment_time=segment_time, scr_dist=scr_dist, debug=False):
 
     # set path to current file location
-    file_path = os.path.join(*(__file__.split('\\')[:-1]))
-    file_path = file_path.replace(':', ':\\')
     os.chdir(file_path)
 
     # check correct monitor type
