@@ -56,14 +56,8 @@ def run(segment_time=segment_time, scr_dist=scr_dist, debug=False):
     # set path to current file location
     os.chdir(file_path)
 
-    # check correct monitor type
-    monitorList = monitors.getAllMonitors()
-    if 'BENQ-XL2411' in monitorList:
-        monitor = monitors.Monitor('BENQ-XL2411', width=53.,
-            distance=scr_dist)
-        monitor.setSizePix([1920, 1080])
-    else:
-        monitor = 'testMonitor'
+    # check incorrect monitor type
+    monitor = 'testMonitor'
 
     # create temporary window
     window = visual.Window(monitor=monitor, units="deg", fullscr=True)
